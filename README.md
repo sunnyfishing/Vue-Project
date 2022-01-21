@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-01-17 14:09:51
- * @LastEditTime: 2022-01-18 17:07:43
+ * @LastEditTime: 2022-01-21 10:04:28
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Vue-Project\README.md
@@ -45,14 +45,23 @@ PS：如果路由模式为 hash 则登陆页的 uri 是 /login.html#/ 而 主页
 - 路由文件
 
 * router/index.js 是用来创建 router 的，并把 router 暴露给 APP.vue 的 Vue 实例
-* router/routers.js 是用来配置路由的，这部分内容一方面会被引入到 router/index.js 来创建路由，另一方面，会被引入到菜单中用来配置菜单。各个模块的路由会被引入到这里来统一处理。
-* router/router-xxx.js 是每个大模块对应的路由文件，里面是该大模块下的路由与菜单。然后暴露给 router/routers.js
+* router/routers.js 汇总各个模块的路由信息。这部分内容一方面会被引入到 router/index.js 来创建路由，另一方面，会被引入到菜单中用来配置菜单。
+* router/router-xxx.js 是每个大模块的菜单对应的路由文件，里面是该大模块下的路由与菜单。然后暴露给 router/routers.js
 
 - 路由配置偏好
-  path 用来放页面对应的 uri，
-  name 用来放页面对应的 key，一般是 path 的变形
+  path 用来放页面对应的 uri，默认是菜单配置中的 key
   component 采用懒加载的形式。如果无对应页面，则使用 layout/EmptyLayout.vue 来加载 <router-view>
   isHiddenMenu true: 在菜单中隐藏。
   meta.title 页面名称对应于菜单名称
 
 - 菜单配置
+
+* 方式 1
+  只设置两层菜单嵌套，一层为分组，不对应页面，一层为子菜单，会有对应页面。
+  在 MenuLayout.vue 文件中只需要循环一层配置信息，避免了使用递归。
+  通过使用 path 作为 key 来区分路由。
+  对于要隐藏的路由，使用过滤掉隐藏路由之后的数据。
+* 方式 2
+  支持多层嵌套
+  使用 Ant Design Vue 提供的【单文件递归菜单】进行构建。https://www.antdv.com/components/menu-cn/#components-menu-demo-single-file-recursive-menu
+  隐藏项的配置：遍历中使用 <template v-if="item.isHiddenMenu"></template> 来代替隐藏的菜单

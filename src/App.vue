@@ -1,25 +1,31 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-09 14:51:23
- * @LastEditTime: 2022-01-18 15:41:17
+ * @LastEditTime: 2022-01-21 09:58:00
  * @LastEditors: Please set LastEditors
  * @Description: 根实例
  * @FilePath: \hello-world\src\App.vue
 -->
 <template>
   <div id="app">
-    <MenuLayout />
+    <MenuLayoutMulti />
+    <!-- <MenuLayout4Double /> -->
     <!-- 路由匹配到的组件将渲染在这里 -->
     <ContainerLayout />
   </div>
 </template>
 
 <script>
-import MenuLayout from "@/layout/MenuLayout";
+import MenuLayoutMulti from "@/layout/MenuLayoutMulti";
+// import MenuLayout4Double from "@/layout/MenuLayout4Double"; // 测试单层菜单和双层菜单
 import ContainerLayout from "@/layout/ContainerLayout";
 export default {
   name: "App",
-  components: { MenuLayout, ContainerLayout },
+  components: {
+    MenuLayoutMulti,
+    ContainerLayout,
+    // MenuLayout4Double,
+  },
 };
 </script>
 
