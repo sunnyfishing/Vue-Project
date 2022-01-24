@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-09 14:51:23
- * @LastEditTime: 2022-01-21 09:58:00
+ * @LastEditTime: 2022-01-24 14:03:59
  * @LastEditors: Please set LastEditors
  * @Description: 根实例
  * @FilePath: \hello-world\src\App.vue
@@ -38,4 +38,7 @@ export default {
   color: #2c3e50;
   display: flex;
 }
+</style>
+<style lang="less">
+@import url("./styles/common.less");
 </style>

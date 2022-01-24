@@ -59,12 +59,11 @@ module.exports = {
           ],
         },
         {
-          path: "/organization/department12",
-          name: "organization-department12",
-          isHiddenMenu: true,
-          component: () => import("@/views/organization/department/index"),
+          path: "/organization/user",
+          name: "organization-user",
+          component: () => import("@/views/organization/user/index"),
           meta: {
-            title: "组织机构12",
+            title: "用户管理",
           },
         },
       ],
