@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-01-17 14:09:51
- * @LastEditTime: 2022-01-21 10:04:28
+ * @LastEditTime: 2022-01-25 11:45:55
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Vue-Project\README.md
@@ -65,3 +65,21 @@ PS：如果路由模式为 hash 则登陆页的 uri 是 /login.html#/ 而 主页
   支持多层嵌套
   使用 Ant Design Vue 提供的【单文件递归菜单】进行构建。https://www.antdv.com/components/menu-cn/#components-menu-demo-single-file-recursive-menu
   隐藏项的配置：遍历中使用 <template v-if="item.isHiddenMenu"></template> 来代替隐藏的菜单
+
+- 封装请求
+
+* utils-axios.js 文件
+  对 req 和 res 进行拦截并配置基本请求状态判断
+* 接口直接返回的内容如下，避免后续多层取值，在拦截器处将 result.data 作为请求结果返回
+  result:{
+  config:{}, // 配置
+  data:{}, // 要返回的内容
+  headers:{} // 响应头
+  request:{}, // 请求体
+  status:200, // 网络状态码
+  }
+
+- 配置代理
+
+* 在 vue.config.js 文件中加上 devServer-proxy-target 进行代理
+  报错：尝试重启服务

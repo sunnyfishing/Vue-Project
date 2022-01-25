@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-01-24 13:50:27
- * @LastEditTime: 2022-01-24 15:09:16
+ * @LastEditTime: 2022-01-25 10:42:57
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \lagou-PC\src\views\organization\user\index.vue
@@ -117,14 +117,15 @@ export default {
         pageNum: current,
       };
       console.log("params-list", params);
-      // this.$http
-      //   .post("/data-center-server/api/auth/server/interface/page", params)
-      //   .then((res) => {
-      //     if (res && res.code === 10000) {
-      //       this.tableData = res.data.records;
-      //       this.total = res.data.total;
-      //     }
-      //   });
+      this.$axiosPost(
+        "/yhzgh-server/data-center-server/api/auth/server/interface/page",
+        params
+      ).then((res) => {
+        if (res && res.code === 10000) {
+          this.tableData = res.data.records;
+          this.total = res.data.total;
+        }
+      });
     },
     // 查询
     onSubmit(params) {

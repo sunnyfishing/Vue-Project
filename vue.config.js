@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-28 15:15:14
- * @LastEditTime: 2022-01-17 17:22:57
+ * @LastEditTime: 2022-01-25 10:34:35
  * @LastEditors: Please set LastEditors
  * @Description: vue配置文件，自己建的
  * @FilePath: \hello-world\vuer.config.js
@@ -20,6 +20,19 @@ module.exports = {
       entry: "src/main.js",
       template: "public/index.html",
       title: "拉钩",
+    },
+  },
+  devServer: {
+    port: 8000,
+    proxy: {
+      "/proxy": {
+        target: "https://yhzghtest.data4truth.com",
+        ws: false,
+        changeOrigin: true,
+        pathRewrite: {
+          "^/proxy": "",
+        },
+      },
     },
   },
 };
