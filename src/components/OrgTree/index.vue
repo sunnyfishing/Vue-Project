@@ -1,28 +1,89 @@
 <template>
-  <a-directory-tree
-    multiple
-    default-expand-all
-    @select="onSelect"
+  <a-tree
+    class="w40"
+    :expanded-keys="expandedKeys"
+    :tree-data="treeData"
+    :replaceFields="replaceFields"
     @expand="onExpand"
-  >
-    <a-tree-node key="0-0" title="parent 0">
-      <a-tree-node key="0-0-0" title="leaf 0-0" is-leaf />
-      <a-tree-node key="0-0-1" title="leaf 0-1" is-leaf />
-    </a-tree-node>
-    <a-tree-node key="0-1" title="parent 1">
-      <a-tree-node key="0-1-0" title="leaf 1-0" is-leaf />
-      <a-tree-node key="0-1-1" title="leaf 1-1" is-leaf />
-    </a-tree-node>
-  </a-directory-tree>
+    @select="onSelect"
+  />
 </template>
 <script>
+const treeData = [
+  {
+    title: "0-0",
+    key: "0-0",
+    children: [
+      {
+        title: "0-0-0",
+        key: "0-0-0",
+        children: [
+          { title: "0-0-0-0", key: "0-0-0-0" },
+          { title: "0-0-0-1", key: "0-0-0-1" },
+          { title: "0-0-0-2", key: "0-0-0-2" },
+        ],
+      },
+      {
+        title: "0-0-1",
+        key: "0-0-1",
+        children: [
+          { title: "0-0-1-0", key: "0-0-1-0" },
+          { title: "0-0-1-1", key: "0-0-1-1" },
+          { title: "0-0-1-2", key: "0-0-1-2" },
+        ],
+      },
+      {
+        title: "0-0-2",
+        key: "0-0-2",
+      },
+    ],
+  },
+  {
+    title: "0-1",
+    key: "0-1",
+    children: [
+      { title: "0-1-0-0", key: "0-1-0-0" },
+      { title: "0-1-0-1", key: "0-1-0-1" },
+      { title: "0-1-0-2", key: "0-1-0-2" },
+    ],
+  },
+  {
+    title: "0-2",
+    key: "0-2",
+  },
+];
 export default {
+  data() {
+    return {
+      expandedKeys: [],
+      autoExpandParent: true,
+      selectedKeys: [],
+      treeData,
+      replaceFields: {
+        children: "children",
+        title: "orgName",
+        key: "_id",
+      },
+    };
+  },
+  created() {
+    this.getTree();
+  },
   methods: {
-    onSelect(keys, event) {
-      console.log("Trigger Select", keys, event);
+    getTree(parentId) {
+      const params = { parentId };
+      this.$axiosGet("/org/treeList", params).then((res) => {
+        this.treeData = res.data;
+      });
     },
-    onExpand() {
-      console.log("Trigger Expand");
+    onExpand(expandedKeys) {
+      console.log("onExpand", expandedKeys);
+      this.expandedKeys = expandedKeys;
+      this.autoExpandParent = false;
+    },
+    onSelect(selectedKeys, info) {
+      console.log("selectedKeys, info", selectedKeys, info);
+      this.selectedKeys = selectedKeys;
     },
   },
 };

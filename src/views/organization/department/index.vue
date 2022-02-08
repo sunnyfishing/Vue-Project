@@ -10,7 +10,7 @@
   <div class="api-data-market antd-ui-changed">
     <!-- <h2 class="h2-page-title">组织列表</h2> -->
     <div class="org-tree">
-      <OrgTree />
+      <OrgTree ref="orgTreeRef" />
     </div>
     <div class="content">
       <Search @search="onSubmit" />
@@ -36,7 +36,7 @@
         @change="onPageChange"
         class="global-table-page-pagination-cont"
         :row-selection="rowSelection"
-        :scroll="{ x: true }"
+        :scroll="{ x: true, y: true }"
       >
         <!-- <template slot="name" slot-scope="text, record">
           <a @click.prevent="gotoDetail(record)">{{ text }}</a>
@@ -112,7 +112,7 @@ export default {
       };
     },
   },
-  created() {
+  mounted() {
     this.getTableData();
   },
   methods: {
@@ -123,9 +123,10 @@ export default {
         ...this.query,
         pageSize,
         pageNum: this.current,
+        parentId: this.$refs.orgTreeRef.selectedKeys[0],
       };
       console.log("params-list", params);
-      this.$axiosGet("/users/get", params).then((res) => {
+      this.$axiosGet("/org/list", params).then((res) => {
         if (res && res.code === 10000) {
           this.tableData = res.data;
           this.total = res.total;
@@ -195,6 +196,12 @@ export default {
     },
     // 新增 or 编辑
     showEditModal(type, id = undefined) {
+      if (type === "add") {
+        if (!this.$refs.orgTreeRef.selectedKeys.length) {
+          this.$message.warning("请选择要添加的组织");
+          return;
+        }
+      }
       this.modalType = type;
       this.modalVisible = true;
       this.id = id;

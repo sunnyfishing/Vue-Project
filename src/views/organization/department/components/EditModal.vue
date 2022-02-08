@@ -19,25 +19,11 @@
     cancel-text="取消"
   >
     <a-form-model ref="ruleForm" :model="form" :rules="rules" layout="vertical">
-      <a-form-model-item label="用户名" prop="username">
+      <a-form-model-item label="组织名" prop="orgName">
         <a-input
-          v-model="form.username"
+          v-model="form.orgName"
           :maxLength="64"
-          placeholder="请输入用户名"
-        />
-      </a-form-model-item>
-      <a-form-model-item label="密码" prop="password">
-        <a-input-password
-          v-model="form.password"
-          :maxLength="64"
-          placeholder="请输入密码"
-        />
-      </a-form-model-item>
-      <a-form-model-item label="手机号" prop="phone">
-        <a-input
-          v-model="form.phone"
-          :maxLength="11"
-          placeholder="请输入手机号"
+          placeholder="请输入组织名"
         />
       </a-form-model-item>
     </a-form-model>
@@ -65,27 +51,13 @@ export default {
       title: `${this.modalType === "add" ? "新增" : "编辑"}`,
       confirmLoading: false,
       form: {
-        username: "",
-        password: "",
-        phone: "",
+        orgName: "",
       },
       rules: {
-        username: [
+        orgName: [
           {
             required: true,
-            message: "请输入名称",
-          },
-        ],
-        password: [
-          {
-            required: true,
-            message: "请输入名称",
-          },
-        ],
-        phone: [
-          {
-            required: true,
-            message: "请输入名称",
+            message: "请输入组织名",
           },
         ],
       },
@@ -120,7 +92,7 @@ export default {
             id: this.id || undefined,
           };
           this.$log("submit-params", params);
-          this.$axiosPost("/users/new", params).then((res) => {
+          this.$axiosPost("/org/new", params).then((res) => {
             if (res && res.code === 10000) {
               this.$message.success("保存成功");
               this.handleCancel(1);

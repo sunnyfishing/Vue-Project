@@ -9,45 +9,17 @@
 export default function columns() {
   return [
     {
-      title: "用户名",
-      dataIndex: "username",
-      key: "username",
+      title: "组织名",
+      dataIndex: "orgName",
+      key: "orgName",
       width: 160,
     },
     {
-      title: "手机号",
-      dataIndex: "phone",
-      key: "phone",
+      title: "创建者",
+      dataIndex: "creator",
+      key: "creator",
       width: 160,
     },
-    // {
-    //   title: '所属行业',
-    //   dataIndex: 'industry',
-    //   key: 'industry',
-    //   width: 160,
-    //   scopedSlots: { customRender: 'industry' },
-    // },
-    // {
-    //   title: '管理员',
-    //   dataIndex: 'adminName',
-    //   key: 'adminName',
-    //   width: 160,
-    //   scopedSlots: { customRender: 'adminName' },
-    // },
-    // {
-    //   title: '联系电话',
-    //   dataIndex: 'adminPhone',
-    //   key: 'adminPhone',
-    //   width: 160,
-    //   scopedSlots: { customRender: 'adminPhone' },
-    // },
-    // {
-    //   title: '申请时间',
-    //   dataIndex: 'createTime',
-    //   key: 'createTime',
-    //   width: 220,
-    //   scopedSlots: { customRender: 'createTime' },
-    // },
     {
       title: "操作",
       key: "action",

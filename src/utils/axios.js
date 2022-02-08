@@ -30,6 +30,7 @@ axiosIns.interceptors.request.use(
     try {
       // 配置请求头部
       req.headers.Authorization = "Bearer ";
+      req.headers.author = "admin";
     } catch (e) {
       console.error("req封装header 出差", e);
     }
