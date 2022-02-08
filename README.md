@@ -40,6 +40,13 @@ PS：如果路由模式为 hash 则登陆页的 uri 是 /login.html#/ 而 主页
 
 * less 版本太高了，使用版本 "less": "^3.0.4", "less-loader": "^5.0.0",
 
+- chunk-vendors 打包文件大，首屏加载时间太长
+
+* 安装 compression-webpack-plugin 插件，并在 vue.config.js 里面配置
+* 对超过一定体积的文件进行打包
+
+- 热更新失效
+
 #### 路由菜单
 
 - 路由文件

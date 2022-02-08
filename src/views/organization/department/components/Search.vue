@@ -18,10 +18,10 @@
       >
         <a-col :xs="24" :lg="12" :xl="8" :xxl="6" class="mb24">
           <div class="col-item">
-            <div class="search-text-content w300">用户名</div>
+            <div class="search-text-content w300">组织名</div>
             <a-input
               v-model.trim="form.username"
-              placeholder="请输入用户名"
+              placeholder="请输入组织名"
               allowClear
               class="w300"
             />

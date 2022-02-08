@@ -8,55 +8,50 @@
 -->
 <template>
   <div class="api-data-market antd-ui-changed">
-    <!-- <h2 class="h2-page-title">组织列表</h2> -->
-    <div class="org-tree">
-      <OrgTree />
-    </div>
-    <div class="content">
-      <Search @search="onSubmit" />
-      <a-divider />
-      <div class="mb24 btns">
-        <a-button type="primary" class="mr24" @click="showEditModal('add')"
-          >新增</a-button
-        >
-        <a-button @click="batchDelete()">批量删除</a-button>
-      </div>
-      <TableSelectTip
-        v-if="selectedRowKeys.length > 0"
-        name="API接口"
-        :total="total"
-        :chooseNum="selectedRowKeys.length"
-        @clearChoose="clearChooseData"
-        style="margin-bottom: 24px"
-      />
-      <a-table
-        :columns="columns"
-        :data-source="tableData"
-        :pagination="pagination"
-        @change="onPageChange"
-        class="global-table-page-pagination-cont"
-        :row-selection="rowSelection"
-        :scroll="{ x: true }"
+    <h2 class="h2-page-title">角色列表</h2>
+    <Search @search="onSubmit" />
+    <a-divider />
+    <div class="mb24 btns">
+      <a-button type="primary" class="mr24" @click="showEditModal('add')"
+        >新增</a-button
       >
-        <!-- <template slot="name" slot-scope="text, record">
-          <a @click.prevent="gotoDetail(record)">{{ text }}</a>
-        </template> -->
-
-        <template slot="action" slot-scope="text, record">
-          <a-popconfirm
-            title="是否删除此数据？"
-            class="antd-ui-changed"
-            ok-text="是"
-            cancel-text="否"
-            @confirm="onDelete(record)"
-          >
-            <a href="#">删除</a>
-          </a-popconfirm>
-          <a-divider type="vertical" />
-          <a href="#">编辑</a>
-        </template>
-      </a-table>
+      <a-button @click="batchDelete()">批量删除</a-button>
     </div>
+    <TableSelectTip
+      v-if="selectedRowKeys.length > 0"
+      name="API接口"
+      :total="total"
+      :chooseNum="selectedRowKeys.length"
+      @clearChoose="clearChooseData"
+      style="margin-bottom: 24px"
+    />
+    <a-table
+      :columns="columns"
+      :data-source="tableData"
+      :pagination="pagination"
+      @change="onPageChange"
+      class="global-table-page-pagination-cont"
+      :row-selection="rowSelection"
+      :scroll="{ x: true }"
+    >
+      <!-- <template slot="name" slot-scope="text, record">
+        <a @click.prevent="gotoDetail(record)">{{ text }}</a>
+      </template> -->
+
+      <template slot="action" slot-scope="text, record">
+        <a-popconfirm
+          title="是否删除此数据？"
+          class="antd-ui-changed"
+          ok-text="是"
+          cancel-text="否"
+          @confirm="onDelete(record)"
+        >
+          <a href="#">删除</a>
+        </a-popconfirm>
+        <a-divider type="vertical" />
+        <a href="#">编辑</a>
+      </template>
+    </a-table>
     <EditModal
       v-if="modalVisible"
       :visible="modalVisible"
@@ -71,14 +66,12 @@ import Search from "./components/Search";
 import Column from "./components/columns";
 import TableSelectTip from "@/components/commons/TableSelectTip";
 import EditModal from "./components/EditModal.vue";
-import OrgTree from "@/components/OrgTree/index";
 export default {
   name: "role",
   components: {
     EditModal,
     Search,
     TableSelectTip,
-    OrgTree,
   },
   data() {
     return {
@@ -216,15 +209,6 @@ export default {
   padding: 30px 24px;
   background: #fff;
   border-radius: 16px;
-  display: flex;
-}
-.org-tree {
-  width: 300px;
-  margin-right: 24px;
-  display: flex;
-}
-.content {
-  flex: 1;
 }
 .h2-page-title {
   font-weight: 500;

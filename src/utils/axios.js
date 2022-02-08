@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-01-24 16:25:18
- * @LastEditTime: 2022-01-25 11:44:47
+ * @LastEditTime: 2022-01-26 15:49:34
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \lagou-PC\src\utils\axios.js
@@ -42,7 +42,7 @@ axiosIns.interceptors.request.use(
   }
 );
 
-// 设置res拦截器
+// 设置res拦截器，用于处理返回的第一层内容
 axiosIns.interceptors.response.use(
   // 第一个参数
   (result) => {
@@ -57,7 +57,7 @@ axiosIns.interceptors.response.use(
     // 从接口返回的result 对象
     // result:{
     //   config:{},    // 配置
-    //   data:{},      // 要返回的内容
+    //   data:{},      // 要返回的内容，也是浏览器预览里展示的内容
     //   headers:{}    // 响应头
     //   request:{},   // 请求体
     //   status:200,   // 网络状态码
@@ -80,10 +80,13 @@ const axios_get = (url, data = {}, msg, headers) => {
           // token失效
           notification.error({
             message: res.msg && "token失效，请重新登录！",
-            duration: 1,
             onClose: () => {
-              // goLoginPage();
+              goLoginPage();
             },
+          });
+        } else if (res.code === 60000) {
+          notification.error({
+            message: res.data.message && "接口出错",
           });
         }
       } else {
@@ -99,7 +102,7 @@ const axios_get = (url, data = {}, msg, headers) => {
     });
 };
 
-// post请求
+// post请求，用来处理第二层内容，即 result.data
 const axios_post = (url, data = {}, msg, headers) => {
   return axiosIns
     .post(url, data, headers)
@@ -110,10 +113,13 @@ const axios_post = (url, data = {}, msg, headers) => {
           // token失效
           notification.error({
             message: res.msg && "token失效，请重新登录！",
-            // duration: 1,
             onClose: () => {
               goLoginPage();
             },
+          });
+        } else if (res.code === 60000) {
+          notification.error({
+            message: res.data.message || "接口出错",
           });
         }
       } else {

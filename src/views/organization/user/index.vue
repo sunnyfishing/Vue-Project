@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2022-01-24 13:50:27
- * @LastEditTime: 2022-01-25 10:42:57
+ * @LastEditTime: 2022-01-26 15:43:37
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \lagou-PC\src\views\organization\user\index.vue
 -->
 <template>
   <div class="api-data-market antd-ui-changed">
-    <h2 class="h2-page-title">API列表</h2>
+    <h2 class="h2-page-title">员工列表</h2>
     <Search @search="onSubmit" />
     <a-divider />
     <div class="mb24 btns">
@@ -34,9 +34,9 @@
       :row-selection="rowSelection"
       :scroll="{ x: true }"
     >
-      <template slot="name" slot-scope="text, record">
+      <!-- <template slot="name" slot-scope="text, record">
         <a @click.prevent="gotoDetail(record)">{{ text }}</a>
-      </template>
+      </template> -->
 
       <template slot="action" slot-scope="text, record">
         <a-popconfirm
@@ -84,6 +84,7 @@ export default {
       modalVisible: false, // 新增-编辑弹框
       modalType: "", // 新增 or 编辑
       id: "",
+      current: 1,
     };
   },
   computed: {
@@ -93,7 +94,7 @@ export default {
         "show-total": (total, range) =>
           `第 ${range[0]}-${range[1]} 项，共 ${total} 项`,
         pageSize: 10,
-        current: 1,
+        current: this.current,
         "show-size-changer": true,
       };
     },
@@ -110,20 +111,17 @@ export default {
   methods: {
     // 请求表格数据
     getTableData() {
-      const { pageSize, current } = this.pagination;
+      const { pageSize } = this.pagination;
       const params = {
         ...this.query,
         pageSize,
-        pageNum: current,
+        pageNum: this.current,
       };
       console.log("params-list", params);
-      this.$axiosPost(
-        "/yhzgh-server/data-center-server/api/auth/server/interface/page",
-        params
-      ).then((res) => {
+      this.$axiosGet("/users/get", params).then((res) => {
         if (res && res.code === 10000) {
-          this.tableData = res.data.records;
-          this.total = res.data.total;
+          this.tableData = res.data;
+          this.total = res.total;
         }
       });
     },
@@ -136,7 +134,7 @@ export default {
     onPageChange({ current, pageSize }) {
       console.log("current, pageSize", current, pageSize);
       this.pagination.pageSize = pageSize;
-      this.pagination.current = current;
+      this.current = current;
       this.getTableData();
     },
     // 清除表格选中
@@ -146,32 +144,47 @@ export default {
     },
     // 删除
     onDelete(record) {
-      this.batchDelete([record.id]);
+      this.batchDelete([record._id]);
     },
     // 批量删除
     batchDelete(ids = []) {
-      console.log("this.selectedRowKeys", this.selectedRowKeys);
+      console.log("this.selectedIds", this.selectedIds);
       console.log("ids", ids);
       const params = {
-        type: 2,
-        idList: ids.length === 0 ? this.selectedIds : ids,
+        ids: ids.length ? ids : this.selectedIds,
       };
       console.log("params-delete", params);
-      // this.$http
-      //   .post("/data-center-server/api/auth/server/interface/batchEdit", params)
-      //   .then((res) => {
-      //     if (res && res.code === 10000) {
-      //       this.$message.success("删除成功");
-      //       this.getTableData();
-      //       this.clearChooseData();
-      //     }
-      //   });
+      this.$axiosPost("/users/batchDelete", params).then((res) => {
+        if (res && res.code === 10000) {
+          this.$message.success("删除成功");
+          this.resetPage();
+          this.getTableData();
+          this.clearChooseData();
+        }
+      });
+      // 单个删除的接口
+      // const params = {
+      //   id: ids[0],
+      // };
+      // console.log("params-delete", params);
+      // this.$axiosPost("/users/delete", params).then((res) => {
+      //   if (res && res.code === 10000) {
+      //     this.$message.success("删除成功");
+      //     this.getTableData();
+      //     this.clearChooseData();
+      //   }
+      // });
+    },
+    // // 重置页码
+    resetPage() {
+      this.current = 1;
+      this.pagination.pageSize = 10;
     },
     // 选择
     onSelectChange(selectedRowKeys, selectedRows) {
       console.log("selectedRows", selectedRows);
       this.selectedRowKeys = selectedRowKeys;
-      this.selectedIds = selectedRows && selectedRows.map((item) => item.id);
+      this.selectedIds = selectedRows && selectedRows.map((item) => item._id);
     },
     // 新增 or 编辑
     showEditModal(type, id = undefined) {
